@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+   
+	<meta charset="utf-8" />
+	<meta name="author" content="WBStudio" />
+	<meta name="description" content="[description]" />
+	<meta name="theme-color" content="#0635c9" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="keywords" content="[keywords]" />
+
+	<meta name="msapplication-tap-highlight" content="no" />
+	<link rel="stylesheet" href="{$setting.web_view}/assets/css/lib/bootstrap.css" />
+	<link rel="stylesheet" href="{$setting.web_view}/assets/css/lib/font-awesome.min.css" />
+	<link rel="stylesheet" href="{$setting.web_view}/assets/css/custom/index.css" />
+	<link rel="stylesheet" href="{$setting.web_view}/assets/css/custom/style.css" />
+<!--	<title>{$setting.company_name} - 专为seo而生的云服务器！</title>-->
+		<title>[title] - {$setting.company_name}</title>
+
+</head>
+
+<body id="index-page" style="height:auto;"><!--这里如果不设置auto那么首页顶部的自动div背景色就会出问题-->
+
+
+	<div id="loading" class="loading">
+		<div class="main">
+			<div class="lds-ring">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+	</div>
+<nav class="navbar navbar-expand-lg">
+		<div class="top-bar d-lg-block d-none">
+			<div class="container">
+				<div class="row">
+					<div class="col-6">
+						<div class="news" style="
+						height:20px;
+    overflow: hidden;">
+							<span class="stat text-uppercase">新闻推送</span>
+							
+							
+							
+							<ul id="news-top" style="height: 20px;
+    display: inline;
+    left: 50px;
+    width: 100%;
+    position: absolute;
+    overflow-y: hidden;">
+							    {assign name="arr" value=":Db::name('newsMenu')->order('id desc')->limit(8)->select()"/}
+							  
+							  {volist name="arr" id="v" limit="1" key="i" empty="暂无新闻"}
+                              <li link="{$setting.web_url}/newsarticle/{$v.id}.html"><a style="font-weight:normal;font-size:12px;" href="{$setting.web_url}/newsarticle/{$v.id}.html" title="{$v.title}" alt="{$v.title}">{$v.title}</a></li>
+                              {/volist}
+                     
+                              </ul>
+							</div>
+          </div>
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+							<a class="dropdown-item text-capitalize" href="{$setting.web_url}/clients.html#/user-center">
+								<div class="d-flex align-items-center justify-content-start">
+									<img src="{$setting.web_view}/assets/images/client.svg" class="img-fluid d-lg-block d-none" alt="img">
+									<div>
+										<span class="name d-block">进入客户中心</span>
+									</div>
+								</div>
+							</a>
+
+							<a class="dropdown-item text-capitalize" href="https://g.sheliyun.com/clients.html#/order?gid=27&firstGid=1">
+								<div class="d-flex align-items-center justify-content-start">
+									<img src="{$setting.web_view}/assets/images/product.svg" class="img-fluid d-lg-block d-none" alt="img">
+									<div>
+										<span class="name d-block">订购产品</span>
+										
+									</div>
+								</div>
+							</a>
+
+						</div>
+						
+						
+						
+						</div>
+					</div>
+				</div>
+		
+	<style>	/**logo扫光效果CSS**/
+#logo:before{  /**根据logo外div样式名称修改before前名称**/
+    content:"";
+    position: absolute;
+    left: -665px; /**第一个数字参数控制扫光速度，数字越大越慢**/
+    top: -460px;
+    margin-top: -25px;
+    width: 60px;
+    height: 1px; /**光标的宽度，可根据实际调整**/
+    background-color: #0047c6;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-animation: searchLights 1s ease-in 1s infinite;
+    -o-animation: searchLights 1s ease-in 1s infinite;
+    animation: searchLights 1.5s ease-in 1s infinite;/**第一个数字参数控制扫光速度，数字越大越慢**/
+}
+@-webkit-keyframes searchLights {
+    0% { left: -100px; top: 0; }
+    to { left: 120px; top: 100px; }
+}
+@-o-keyframes searchLights {
+    0% { left: -100px; top: 0; }
+    to { left: 120px; top: 100px; }
+}
+@-moz-keyframes searchLights {
+    0% { left: -100px; top: 0; }
+    to { left: 120px; top: 100px; }
+}
+@keyframes searchLights {
+    0% { left: -100px; top: 0; }
+    to { left: 120px; top: 100px; }
+}
+	.pcsheliyunpc{font-size:50px;line-height:50px;text-align:center;height:auto;font-weight:bold;color:#fff;float:left;}
+		.pcsheliyunjs{font-size:28px;line-height:28px;text-align:center;height:auto;font-weight:bold;color:var(--thBlue);float:left;}
+	
+	</style>
+		<div  class="container" >
+		    <div  style="position:relative;padding:0;margin:0;float:left;">
+		    <div id="logoqq" sytle="margin:0;padding:0;border:0;">
+			<a  sytle="margin:0;padding:0;border:0;" class="navbar-brand" href="{$setting.web_url}">
+			    				<!--pc-->
+				<div  class="img-fluid d-lg-block d-none" style="margin:0;padding:0;border:0;">
+				    <span class="pcsheliyunpc">舍利云<span style="position:absolute;left:150px;line-height:40px;">|</span></span>
+				    <p style="position: absolute;left:169px;top:-1px;padding:0;color:red;font-size:24px;font-weight:700;">VPS云服务器终点站</p>
+				    
+				    <p style="position: absolute;left: 169px;top:34px;padding:0;font-family:inherit;font-size:12px;color:#ffffff;">BGP,CN2,GIA,CMI,169应对复杂国际综合线路</p></div>
+				<!--手机-->
+				
+                <div  class="img-fluid d-lg-none d-block" style="margin:0;padding:0;border:0;">
+				    <span class="pcsheliyunjs">舍利云<span style="position:absolute;left:85px;line-height:25px;">|</span></span>
+				    <p style="position: absolute;line-height:20px;left:98px;padding:0;color:red;font-size:12px;font-weight:700;">VPS云服务器终点站</p>
+				    
+				    <p style="position: absolute;left:98px;top:17px;padding:0;font-family:inherit;font-size:9px;color:var(--thBlue);line-height:20px;">BGP机房以应对复杂国际线路</p></div>
+			</a></div></div>
+			<button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto"><li class="nav-item" link="#"><a href="https://g.sheliyun.com/clients.html#/order?gid=27&firstGid=1" style="color:red;" class="nav-link" >选购产品</a>
+					</li><!--
+					<li class="nav-item" link="#">
+						<a class="nav-link" href="/products.html">产品</a>
+					</li>-->
+					<li class="nav-item" link="#">
+						<a class="nav-link" href="/news.html">新闻</a>
+					</li>
+					
+					<li class="nav-item" link="#">
+						<a class="nav-link" title="外链查询" alt="外链查询" href="https://seo.juziseo.com/">外链查询</a>
+					</li>
+
+							<li class="nav-item" link="#">
+						<a class="nav-link" href="/help.html">帮助</a>
+					</li>
+					<li class="nav-item" link="#">
+						<a class="nav-link" href="/aboutus.html">about</a>
+					</li>
+					<li class="nav-item" link="#">
+						<a class="nav-link" href="/contact.html">联系</a>
+					</li>
+
+					
+{if $userInfo}
+				
+							<li link="#" class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-capitalize" href="#" id="navbarDropdown" role="button"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{$setting.web_view}/assets/images/avatarhead.svg"></a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+							<a class="dropdown-item text-capitalize" href="{$setting.web_url}/clients.html#/user-center">
+								<div class="d-flex align-items-center justify-content-start">
+									<img src="{$setting.web_view}/assets/images/client.svg" class="img-fluid d-lg-block d-none" alt="img">
+									<div>
+										<span class="name d-block">进入客户中心</span>
+									</div>
+								</div>
+							</a>
+
+							<a class="dropdown-item text-capitalize" href="{$setting.web_url}/clients.html?#/order">
+								<div class="d-flex align-items-center justify-content-start">
+									<img src="{$setting.web_view}/assets/images/product.svg" class="img-fluid d-lg-block d-none" alt="img">
+									<div>
+										<span class="name d-block">订购产品</span>
+										
+									</div>
+								</div>
+							</a>
+
+						</div>
+					</li>
+					
+					
+					{else/}  
+					<li class="nav-item user-item ml-lg-3">
+						<a class="nav-link" href="{$setting.web_url}/clients.html#/login">登录</a>
+					</li>
+<li class="nav-item d-lg-none">
+						<a class="nav-link" href="{$setting.web_url}/clients.html#/register">注册</a>
+					</li>
+					{/if}
+				</ul>
+			</div>
+		</div>
+	</nav>

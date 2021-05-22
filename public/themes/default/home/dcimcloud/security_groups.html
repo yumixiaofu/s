@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>安全组</title>
+  <link rel="stylesheet" href="{$Request.domain}{$Request.rootUrl}/themes/default/home/dcimcloud/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{$Request.domain}{$Request.rootUrl}/themes/default/home/dcimcloud/css/layui.css">
+  <link rel="stylesheet" href="{$Request.domain}{$Request.rootUrl}/themes/default/home/dcimcloud/css/selectFilter.css">
+  <link rel="stylesheet" href="{$Request.domain}{$Request.rootUrl}/themes/default/home/dcimcloud/css/02SecurityGroup.css">
+  <!-- <link rel="stylesheet" href="{$Request.domain}{$Request.rootUrl}/themes/default/home/dcimcloud/css/global.css"> -->
+
+  <script src="{$Request.domain}{$Request.rootUrl}/themes/default/home/dcimcloud/js/jquery.min.js"></script>
+  <script src="{$Request.domain}{$Request.rootUrl}/themes/default/home/dcimcloud/js/bootstrap.min.js"></script>
+  <script src="{$Request.domain}{$Request.rootUrl}/themes/default/home/dcimcloud/js/sweetAlert2.min.js"></script>
+</head>
+
+<body>
+  <div class="securityGroup_btn">
+    <button type="button" class="layui-btn purple" data-toggle="modal" data-target="#myModal">新建安全组</button>
+  </div>
+  <div class="container">
+    <!-- 新建安全组模态框 -->
+    <div class="modal fade" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="modal-title">新建安全组</span>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- 模态框主体 -->
+          <div class="modal-body">
+            <div class="modal_limit">
+              <div class="modal_main">
+                <form>
+                <input style="width:48%" name="name" type="text" placeholder="安全组名称" class="form-control" id="name">
+                <input style="width:48%" name="description" type="text" placeholder="备注" class="form-control" id="remark">
+                </form>
+              </div>
+              <div class="footer">
+                <button type="button" class="btn confirm-btn createSecurityGroup" data-dismiss="modal" style="margin-left:10px">确定</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 新增策略模态框 -->
+    <div class="modal fade" id="addModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="modal-title">新增策略</span>
+            <button type="button" class="close" data-dismiss="modal" onclick="closeAddModal()">&times;</button>
+          </div>
+
+          <!-- 模态框主体 -->
+          <div class="modal-body">
+            <div class="modal_limit">
+              <div class="modal_main">
+                <form>
+                  <input type="hidden" name="id">
+                  <div class="form-group">
+                    <label for="direction">规则方向</label>
+                    <div class="selectItem">
+                      <div class="direction">
+                        <div class="filter-text">
+                          <input class="filter-title" type="text" readonly placeholder="请选择" />
+                          <i class="icon icon-filter-arrow"></i>
+                        </div>
+                        <select name="direction">
+                          <option value="out">出</option>
+                          <option value="in">入</option>
+                        </select>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="form-group">
+                    <label for="protocol">协议</label>
+
+                    <div class="selectItem">
+                      <div class="protocol">
+                        <div class="filter-text">
+                          <input class="filter-title" type="text" readonly placeholder="请选择" />
+                          <i class="icon icon-filter-arrow"></i>
+                        </div>
+                        <select name="protocol">
+                          <option value="all" data-port="1-65535">全部</option>
+                          <option value="all_tcp" data-port="1-65535">全部TCP</option>
+                          <option value="all_udp" data-port="1-65535">全部UDP</option>
+                          <option value="tcp" selected="">自定义TCP</option>
+                          <option value="udp">自定义UDP</option>
+                          <option value="icmp" data-port="1-65535">ICMP</option>
+                          <option value="ssh" data-port="22">SSH (22)</option>
+                          <option value="telnet" data-port="23">telnet (23)</option>
+                          <option value="http" data-port="80">HTTP (80)</option>
+                          <option value="https" data-port="443">HTTPS (443)</option>
+                          <option value="mssql" data-port="1433">MS SQL (1433)</option>
+                          <option value="oracle" data-port="1521">Oracle (1521)</option>
+                          <option value="mysql" data-port="3306">MySQL (3306)</option>
+                          <option value="rdp" data-port="3389">RDP (3389)</option>
+                          <option value="postgresql" data-port="5432">PostgreSQL (5432)</option>
+                          <option value="redis" data-port="6379">Redis (6379)</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="portRange">
+                      <span style="color:#f00">*</span>
+                      端口范围</label>
+                    <input required name="port" type="input" class="form-control" id="portRange" placeholder="例如:22或者22-12345">
+                    <div class="invalid-feedback" id="port-feedback"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="IP">
+                      <span style="color:#f00">*</span>
+                      授权IP
+                    </label>
+                    <input required name="ip" type="input" class="form-control" id="IP" placeholder="例如:10.x.y.z/32">
+                    <div class="invalid-feedback" id="IP-feedback"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="description">描述</label>
+                    <textarea name="description" class="form-control" rows="5" id="description"></textarea>
+                  </div>
+                </form>
+              </div>
+              <div class="footer">
+                <button type="button" class="btn confirm-btn createSecurityRule" style="margin-left:10px" onclick="checkForm()">确定</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="layui-table">
+    <thead>
+      <tr>
+        <th>名称</th>
+        <th>描述</th>
+        <th style="width:285px">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      {foreach $list as $key=>$vo } 
+      <tr>
+        <td>{$vo.id == $used ? '(当前) ' : ''}{$vo.name}</td>
+        <td>{$vo.description}</td>
+        <td style="width:300px">
+          {if $vo.id != $used}
+          <button type="button" class="btn btn-link apply" data-id="{$vo.id}">应用</button>
+          {/if}
+          <button type="button" class="btn btn-link trView" data-id="{$vo.id}">查看</button>
+          <button type="button" class="btn btn-link" data-toggle="modal" data-target="#addModal" data-id="{$vo.id}" onclick="addId($(this))">新增策略</button>
+          {if $vo.id != $used}
+          <button type="button" class="btn btn-link deleteGroup redtxt" data-id="{$vo.id}">删除</button>
+          {/if}
+        </td>
+      </tr>
+      {/foreach}
+    </tbody>
+  </table>
+  <div style="display: none" id="loading-circle">
+    <div class="loading_limit">
+      <div class="loading_inner">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+  <script src="{$Request.domain}{$Request.rootUrl}/themes/default/home/dcimcloud/js/layui.js"></script>
+  <script type="text/javascript" src="{$Request.domain}{$Request.rootUrl}/themes/default/home/dcimcloud/js/selectFilter.js"></script>
+  <script>
+    // 初始化下拉选择
+    $('.direction').selectFilter({
+      callBack: function (val) {
+        console.log(val + '是返回的值')
+      }
+    });
+    $('.protocol').selectFilter({
+      callBack: function (val) {
+        console.log(val + '是返回的值')
+      }
+    });
+    $('.directionOther').selectFilter({
+      callBack: function (val) {
+        console.log(val + '是返回的值')
+      }
+    });
+    $('.strategy').selectFilter({
+      callBack: function (val) {
+        console.log(val + '是返回的值')
+      }
+    });
+    $('.authorizationType').selectFilter({
+      callBack: function (val) {
+        console.log(val + '是返回的值')
+      }
+    });
+
+    // 安全组行内 查看按钮
+    /*$('.trView').on('click', function () {
+      $(this).parent().parent().next('.expandLine').toggle();
+    });*/
+
+    // 安全组行内 应用按钮
+    $('.apply').on('click', function () {
+      if($(this).data('disabled') == 'true'){
+          return;
+      }
+      apply_btn = $(this)
+      var id = $(this).data("id")
+      Swal.fire({
+        position: 'top',
+        title: '确定应用此安全组吗？',
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#6e9aff',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '确认应用',
+        cancelButtonText: '取消'
+      }).then((result) => {
+        if (result.value) {
+          apply_btn.html($('#loading-circle').html());
+          apply_btn.data('disabled', 'true')
+          ajax({
+              type:"post",
+              url:"{$MODULE_CUSTOM_API}",
+              data:{"func":"linkSecurityGroup","id":id},
+              success:function(data){
+                  if(data.status==200){
+                      Swal.fire({
+                        position: 'top',
+                        title: '应用成功',
+                        type: 'success',
+                        confirmButtonColor: '#6e9aff',
+                      }).then((isConfirm) => window.location.reload());
+                  }else{
+                      apply_btn.html('应用')
+                      apply_btn.data('disabled', 'false')
+                      Swal.fire("应用失败", data.msg, "error");
+                  }
+                  
+              }
+          })
+        }
+      })
+    });
+
+    // 安全组行内 删除按钮
+    $('.deleteGroup').on('click', function () {
+      if($(this).data('disabled') == 'true'){
+          return;
+      }
+      delete_group_btn = $(this)
+      var id = $(this).data("id")
+      Swal.fire({
+        position: 'top',
+        title: '确定删除此安全组吗？',
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#6e9aff',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '确认删除',
+        cancelButtonText: '取消'
+      }).then((result) => {
+        if (result.value) {
+          delete_group_btn.html($('#loading-circle').html());
+          delete_group_btn.data('disabled', 'true')
+          ajax({
+              type:"post",
+              url:"{$MODULE_CUSTOM_API}",
+              data:{"func":"delSecurityGroup","id":id},
+              success:function(data){
+                  if(data.status==200){
+                      Swal.fire({
+                        position: 'top',
+                        title: '删除成功',
+                        type: 'success',
+                        confirmButtonColor: '#6e9aff',
+                      }).then((isConfirm) => window.location.reload());
+                  }else{
+                      delete_group_btn.html('删除');
+                      delete_group_btn.data('disabled', 'false')
+                      Swal.fire("删除失败", data.msg, "error");
+                  }
+              }
+          })
+        }
+      })
+    });
+
+    // 策略删除
+    $(document).on('click', '.deleteStrategy', function () {
+      if($(this).data('disabled') == 'true'){
+          return;
+      }
+      delete_rule_btn = $(this)
+      var id = $(this).data("id")
+      var group = $(this).data('group')
+      Swal.fire({
+        position: 'top',
+        title: '确定删除此策略吗？',
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#6e9aff',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '确认删除',
+        cancelButtonText: '取消'
+      }).then((result) => {
+        if (result.value) {
+          delete_rule_btn.html($('#loading-circle').html());
+          delete_rule_btn.data('disabled', 'true');
+          ajax({
+              type:"post",
+              url:"{$MODULE_CUSTOM_API}",
+              data:{"func":"delSecurityRule","id":id,"group":group},
+              success:function(data){
+                  if(data.status==200){
+                      Swal.fire({
+                        position: 'top',
+                        title: '删除成功',
+                        type: 'success',
+                        confirmButtonColor: '#6e9aff',
+                      }).then((isConfirm) => window.location.reload());
+                  }else{
+                      delete_rule_btn.html('删除')
+                      delete_rule_btn.data('disabled', 'false')
+                      Swal.fire("删除失败", data.msg, "error");
+                  }
+                  
+              }
+          })
+        }
+      })
+    });
+
+    // 新增策略表单验证
+    function checkForm() {
+      const IP = document.getElementById("IP"); // 输入框的值
+      const IPfeedback = document.getElementById("IP-feedback"); // 输入框的验证提示
+      const portRange = document.getElementById("portRange"); // 输入框的值
+      const portFeedback = document.getElementById("port-feedback"); // 输入框的验证提示
+
+      //不能为空
+      if (portRange.value === "") {
+        portFeedback.innerHTML = "请填写端口范围";
+        portRange.classList.remove("is-valid"); //清除合法状态
+        portRange.classList.add("is-invalid"); //添加非法状态
+        return
+      } else {
+        portRange.classList.remove("is-invalid");
+        portRange.classList.add("is-valid");
+        portFeedback.innerHTML = "";
+      }
+
+      if (IP.value === "") {
+        IPfeedback.innerHTML = "请填写授权IP";
+        IP.classList.remove("is-valid"); //清除合法状态
+        IP.classList.add("is-invalid"); //添加非法状态
+        return
+      } else {
+        //清除错误提示，改成成功提示
+        IP.classList.remove("is-invalid");
+        IP.classList.add("is-valid");
+        IPfeedback.innerHTML = "";
+      }
+    }
+
+    // 关闭模态框
+    function closeAddModal() {
+      const IP = document.getElementById("IP");
+      const portRange = document.getElementById("portRange");
+      const description = document.getElementById("description");
+
+      IP.classList.remove("is-valid");
+      IP.classList.remove("is-invalid");
+
+      portRange.classList.remove("is-valid");
+      portRange.classList.remove("is-invalid");
+
+      IP.value = ''
+      portRange.value = ''
+      description.value = ''
+    }
+
+    function addId(_this){
+      $("#addModal").find("input[name='id']").val(_this.data("id"))
+    }
+
+    // 点击查看控制显隐
+    $(document).on('click','.trView', function () {
+        var id = $(this).data("id");
+        if($("#view_"+id).length>0){
+            $("#view_"+id).remove()
+        }else{
+            var _this = $(this)
+            ajax({
+                type:"post",
+                url:"{$MODULE_CUSTOM_API}",
+                data:{"func":"showSecurityRules","id":id},
+                success:function(data){
+                    var _html = '<tr class="expandLine" id="view_'+id+'"><td colspan="3"><table class="layui-table"><thead><tr><th>规则描述</th><th>规则方向</th><th>协议</th><th>端口范围</th><th>授权IP</th><th style="width:110px">操作</th></tr>'
+                    $.each(data.list,function(i,v){
+                        _html += '<tr style="text-indent: 18px;"><td>'+v.description+'</td><td>'+ (v.direction == 'in' ? '入方向' : '出方向') +'</td><td>'+v.protocol+'</td><td>'+v.port+'</td><td>'+v.ip+'</td><td><button type="button" data-id="'+v.id+'" data-group="'+id+'" class="btn btn-link deleteStrategy redtxt">删除</button></td></tr>'
+                    })
+                    _html += '</thead></table></td></tr>'
+                    _this.parents("tr").after(_html)
+                    _this.parent().parent().next('.expandLine').toggle()
+                }
+            })
+        }
+    })
+
+    $('.createSecurityGroup').on('click', function () {
+      if(!$(this).data('submit')){
+        $(this).html($('#loading-circle').html());
+        $(this).data('submit', 'submit')
+        ajax({
+            type:"post",
+            url:"{$MODULE_CUSTOM_API}",
+            data:$("#myModal").find("form").serialize() + "&func=createSecurityGroup",
+            success:function(data){
+                $(".createSecurityGroup").html('确认')
+                $(".createSecurityGroup").data('submit','')
+                if(data.status==200){
+                    $("#myModal").modal('hide')
+                    Swal.fire({
+                      position: 'top',
+                      title: '创建成功',
+                      type: 'success',
+                      confirmButtonColor: '#6e9aff',
+                    }).then((isConfirm) => window.location.reload());
+                }else{
+                    Swal.fire("创建失败", data.msg, "error");
+                }
+            },
+            error:function(){
+              $(".createSecurityGroup").html('确认')
+              $(".createSecurityGroup").data('submit','')
+            }
+        })
+      }
+    });
+
+  $('.createSecurityRule').on('click', function () {
+    if(!$(this).data('submit')){
+      $(this).data('submit', 'submit')
+      ajax({
+          type:"post",
+          url:"{$MODULE_CUSTOM_API}",
+          data:$("#addModal").find("form").serialize() + "&func=createSecurityRule",
+          success:function(data){
+              $(".createSecurityRule").data('submit','')
+              if(data.status==200){
+                  $("#addModal").modal('hide')
+                  Swal.fire({
+                    position: 'top',
+                    title: '创建成功',
+                    type: 'success',
+                    confirmButtonColor: '#6e9aff',
+                  }).then((isConfirm) => window.location.reload());
+              }else{
+                  Swal.fire("创建失败", data.msg, "error");
+              }
+          },
+          error:function(){
+            $(".createSecurityRule").data('submit','')
+          }
+      })
+    }
+  });
+
+  function ajax(options){
+      //创建一个ajax对象
+      var xhr = new XMLHttpRequest() || new ActiveXObject("Microsoft,XMLHTTP");
+      //数据的处理 {a:1,b:2} a=1&b=2;
+      if(typeof(options.data)!='string'){
+          var str = "";
+          for(var key in options.data){
+              str+="&"+key+"="+options.data[key];
+          }
+          str = str.slice(1)
+      }else{
+          var str = options.data;
+      }
+      
+      options.dataType=options.dataType||'json';
+      if(options.type == "get"){
+          var url = options.url+"?"+str;
+          xhr.open("get",url);
+          xhr.setRequestHeader("Authorization","JWT {$Think.get.jwt}");
+          xhr.send();
+      }else if(options.type == "post"){
+          xhr.open("post",options.url);
+          xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+          xhr.setRequestHeader("Authorization","JWT {$Think.get.jwt}");
+          xhr.send(str)
+      }
+      //监听
+      xhr.onreadystatechange = function(){
+          //当请求成功的时候
+          if(xhr.readyState == 4 && xhr.status == 200){
+              var d = xhr.responseText;
+              d = JSON.parse(d);
+              //将请求的数据传递给成功回调函数
+              options.success&&options.success(d,xhr.responseXML)
+          }else if(xhr.status != 200){
+              //当失败的时候将服务器的状态传递给失败的回调函数
+              options.error&&options.error(xhr.status);
+          }
+      }
+  }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<body id="error-page">
+{include file="common/header"  title="vps,香港vps,美国vps云服务器云主机表示该页面不存在！" keywords="$setting.company_name" description="$setting.company_profile" /}
+{tagdata name="newsCate,newsList" /}
+ <style>
+/*样式*/
+#notfound {
+
+  position: relative;
+  padding: 160px 0 100px;
+}
+
+.notfound {
+  width: 100%;
+}
+.notfound .notfound-404 {
+  position: relative;
+  z-index: -1;
+}
+.notfound .notfound-404 h1 {
+  font-family: sans, sans-serif !important;
+  font-size: 170px;
+  margin: 0px;
+  font-weight: 900;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background: url('{$setting.web_view}/assets/images/pages/404/bg.jpg') no-repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: cover;
+  background-position: center;
+}
+.notfound h2 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--typeColor);
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 30px;
+}
+.notfound p {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: rgba(3, 27, 78, 0.7);
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0 auto 30px;
+  max-width: 410px;
+}
+.notfound a {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  text-decoration: none;
+  text-transform: uppercase;
+  background: var(--thBlue);
+  display: inline-block;
+  padding: 15px 30px;
+  border-radius: 40px;
+  color: #fff;
+  font-weight: 700;
+  -webkit-transition: background .3s ease;
+  transition: background .3s ease;
+
+}
+.notfound a:hover {
+  background: var(--thDarBlue);
+}
+/*样式*/
+@media only screen and (max-width: 767px) {
+  #notfound {
+    padding: 130px 0 70px;
+  }
+  .notfound .notfound-404 h1 {
+    font-size: 112px;
+  }
+  .notfound h2 {
+    margin-top: 25px;
+  }
+  .notfound a {
+    padding: 12px 25px;
+  }
+}
+/*样式*--/
+ </style>
+
+  <div id="notfound" class="d-flex align-items-center justify-content-center">
+    <div class="notfound text-center">
+      <div class="container">
+        <div class="notfound-404">
+          <h1>Oops!</h1>
+        </div>
+        <h2>很抱歉，该页面不存在</h2>
+        <p>您要找的页面可能已经不存在或暂时无法访问。.</p>
+        <a href="{$setting.web_url}">返回首页</a>
+      </div>
+    </div>
+  </div>
+
+
+
+  {include file="common/footer"  /}
+</body>

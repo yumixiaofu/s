@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<title>选择框</title>
+	<link rel="stylesheet" type="text/css" href="{$Request.domain}{$Request.rootUrl}/nokvm/css/selectFilter.css" />
+	<style type="text/css">
+		* {
+			outline: none;
+		}
+
+		body {
+			padding-left: 44px;
+		}
+
+		.row {
+			display: flex;
+			align-items: center;
+			margin-bottom: 10px;
+		}
+
+		.title {
+			width: 70px;
+		}
+
+		.item {
+			width: 240px;
+		}
+
+    .item-limit {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+		.confirmBtn {
+			box-sizing: border-box;
+			padding: 5px 12px;
+			border: 1px solid #dcdfe6;
+			font-size: 14px;
+			cursor: pointer;
+			user-select: none;
+			transition: all 0.2s;
+			border-radius: 2px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-left: 10px;
+		}
+
+		.confirmBtn:hover {
+			border: 1px solid #333;
+		}
+
+		@media screen and (max-width: 600px) {
+			body {
+				padding-left: 0px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<!-- 卸载iso部分 -->
+	{foreach $iso as $key=>$vo } 
+	<div class="row">
+		<div class="title">
+			<span>当前iso</span>
+		</div>
+		<div class="item">
+			<div class="item-limit">
+				<span>{$vo.name}</span>
+			</div>
+		</div>
+		<div class="confirmBtn unmount_iso"  data-id="{$vo.id}">
+			卸载
+		</div>
+	</div>
+	{/foreach}
+	<!-- iso部分 -->
+	<div class="row">
+		<div class="title">
+			<span>挂载iso</span>
+		</div>
+		<div class="item">
+			<div class="filter-iso">
+				<div class="filter-text">
+					<input class="filter-title" type="text" readonly placeholder="请选择..." />
+					<i class="icon icon-filter-arrow"></i>
+				</div>
+				<select name="filter">
+					{foreach $iso2 as $key=>$vo } 
+				    <option value="{$vo.id}">{$vo.name}</option>
+				    {/foreach}
+				</select>
+			</div>
+		</div>
+		<div class="confirmBtn"  id="mount_iso">
+			确认
+		</div>
+	</div>
+	<!-- 启动项部分 -->
+	<div class="row">
+		<div class="title">
+			<span>启动项</span>
+		</div>
+		<div class="item">
+			<div class="filter-qdx">
+				<div class="filter-text">
+					<input class="filter-title" type="text" readonly placeholder="请选择..." />
+					<i class="icon icon-filter-arrow"></i>
+				</div>
+				<select  id="drive" name="filter">
+					<option value="d" {$bootorder=='d' ? 'selected' : ''} >Hard Disk Only</option>
+			        <option value="c" {$bootorder=='c' ? 'selected' : ''} >CDROM Only</option>
+			        <option value="dc" {$bootorder=='dc' ? 'selected' : ''} >(1) Hard Disk (2) CDROM</option>
+			        <option value="cd" {$bootorder=='cd' ? 'selected' : ''} >(1) CDROM (2) Hard Disk</option>
+				</select>
+			</div>
+		</div>
+		<div class="confirmBtn" id="set_boot_order">
+			确认
+		</div>
+	</div>
+
+
+
+	<script src="{$Request.domain}{$Request.rootUrl}/nokvm/js/jquery-min.js"></script>
+	<script type="text/javascript" src="{$Request.domain}{$Request.rootUrl}/nokvm/js/selectFilter.js"></script>
+	<script src="{$Request.domain}{$Request.rootUrl}/nokvm/js/sweetalert2.all.min.js"></script>
+	<script>
+    //这里可以得到iso下拉的值
+    $('.filter-iso').selectFilter({
+      callBack: function (val) {
+        //返回选择的值
+        console.log(val + '-是返回的值')
+      }
+    });
+
+    //这里可以得到启动项下拉的值
+    $('.filter-qdx').selectFilter({
+      callBack: function (val) {
+        //返回选择的值
+        console.log(val + '-是返回的值')
+      }
+    });
+    $("#mount_iso").on("click", function () {
+      var id = $("#iso").val()
+      sweetCreate(id);
+    })
+    function sweetCreate(id) {
+      Swal.fire({
+        icon: 'warning',
+        type: 'warning', // 弹框类型
+        title: '', //标题
+        text: "确定挂载选中的ISO吗？", //显示内容
+        confirmButtonColor: '#3085d6', // 确定按钮的 颜色
+        confirmButtonText: '确定', // 确定按钮的 文字
+        showCancelButton: true, // 是否显示取消按钮
+        cancelButtonColor: '#ababab', // 取消按钮的 颜色
+        cancelButtonText: "取消", // 取消按钮的 文字
+
+        focusCancel: true, // 是否聚焦 取消按钮
+        reverseButtons: true // 是否 反转 两个按钮的位置 默认是 左边 确定 右边 取消
+      }).then((isConfirm) => {
+        try {
+          //判断 是否 点击的 确定按钮
+          if (isConfirm.value) {
+            ajax({
+          type:"post",
+          url:"{$MODULE_CUSTOM_API}",
+          data:{"func":"mountIso","id":id},
+          success:function(data){
+            if(data.status==200){
+              Swal.fire("成功", data.msg, "success").then((isConfirm) => window.location.reload());
+            }else{
+              Swal.fire("失败", data.msg, "error");
+            }
+              
+          }
+      })
+          } else {
+          }
+        } catch (e) {
+          alert(e);
+        }
+      });
+    }
+    $(".unmount_iso").on("click", function () {
+      var id = $(this).data("id")
+      sweetRec(id);
+    })
+    function sweetRec(id) {
+      Swal.fire({
+        icon: 'warning',
+        type: 'warning', // 弹框类型
+        title: '', //标题
+        text: "确定卸载当前的ISO吗？", //显示内容
+        confirmButtonColor: '#3085d6', // 确定按钮的 颜色
+        confirmButtonText: '确定', // 确定按钮的 文字
+        showCancelButton: true, // 是否显示取消按钮
+        cancelButtonColor: '#ababab', // 取消按钮的 颜色
+        cancelButtonText: "取消", // 取消按钮的 文字
+
+        focusCancel: true, // 是否聚焦 取消按钮
+        reverseButtons: true // 是否 反转 两个按钮的位置 默认是 左边 确定 右边 取消
+      }).then((isConfirm) => {
+        try {
+          //判断 是否 点击的 确定按钮
+          if (isConfirm.value) {
+            ajax({
+          type:"post",
+          url:"{$MODULE_CUSTOM_API}",
+          data:{"func":"unmountIso","id":id},
+          success:function(data){
+            if(data.status==200){
+              Swal.fire("成功", data.msg, "success").then((isConfirm) => window.location.reload());
+            }else{
+              Swal.fire("失败", data.msg, "error");
+            }
+              
+          }
+      })
+          } else {
+          }
+        } catch (e) {
+          alert(e);
+        }
+      });
+    }
+    $("#set_boot_order").on("click", function () {
+      var id = $("#drive").val()
+      sweetDel(id);
+    })
+    function sweetDel(id) {
+      Swal.fire({
+        icon: 'warning',
+        type: 'warning', // 弹框类型
+        title: '', //标题
+        text: "确定设置选中项为启动项吗？", //显示内容
+        confirmButtonColor: '#3085d6', // 确定按钮的 颜色
+        confirmButtonText: '确定', // 确定按钮的 文字
+        showCancelButton: true, // 是否显示取消按钮
+        cancelButtonColor: '#ababab', // 取消按钮的 颜色
+        cancelButtonText: "取消", // 取消按钮的 文字
+
+        focusCancel: true, // 是否聚焦 取消按钮
+        reverseButtons: true // 是否 反转 两个按钮的位置 默认是 左边 确定 右边 取消
+      }).then((isConfirm) => {
+        try {
+          //判断 是否 点击的 确定按钮
+          if (isConfirm.value) {
+            ajax({
+          type:"post",
+          url:"{$MODULE_CUSTOM_API}",
+          data:{"func":"setBootOrder","id":id},
+          success:function(data){
+            if(data.status==200){
+              Swal.fire("成功", data.msg, "success").then((isConfirm) => window.location.reload());
+            }else{
+              Swal.fire("失败", data.msg, "error");
+            }
+              
+          }
+      })
+          } else {
+          }
+        } catch (e) {
+          alert(e);
+        }
+      });
+    }
+
+    function ajax(options){
+      //创建一个ajax对象
+      var xhr = new XMLHttpRequest() || new ActiveXObject("Microsoft,XMLHTTP");
+      //数据的处理 {a:1,b:2} a=1&b=2;
+      if(typeof(options.data)!='string'){
+          var str = "";
+          for(var key in options.data){
+              str+="&"+key+"="+options.data[key];
+          }
+          str = str.slice(1)
+      }else{
+          var str = options.data;
+      }
+      options.dataType=options.dataType||'json';
+      if(options.type == "get"){
+          var url = options.url+"?"+str;
+          xhr.open("get",url);
+          xhr.setRequestHeader("Authorization","JWT {$Think.get.jwt}");
+          xhr.send();
+      }else if(options.type == "post"){
+          xhr.open("post",options.url);
+          xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+          xhr.setRequestHeader("Authorization","JWT {$Think.get.jwt}");
+          xhr.send(str)
+      }
+      //监听
+      xhr.onreadystatechange = function(){
+          //当请求成功的时候
+          if(xhr.readyState == 4 && xhr.status == 200){
+              var d = xhr.responseText;
+              d = JSON.parse(d);
+              //将请求的数据传递给成功回调函数
+              options.success&&options.success(d)
+          }else if(xhr.status != 200){
+              //当失败的时候将服务器的状态传递给失败的回调函数
+              options.error&&options.error(xhr.status);
+          }
+      }
+  }
+  </script>
+</body>
+
+</html>
