@@ -1,0 +1,164 @@
+<!--
+WBSTudio BearZero Template For IDCSMART Finance
+Version:V1.0.0
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+	<meta charset="utf-8" />
+	<meta name="author" content="WBStudio" />
+	<meta name="description" content="[description]" />
+	<meta name="theme-color" content="#0635c9" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="keywords" content="[keywords]" />
+	<meta name="msapplication-tap-highlight" content="no" />
+	<link rel="stylesheet" href="{$setting.web_view}/assets/css/lib/bootstrap.css" />
+	<link rel="stylesheet" href="{$setting.web_view}/assets/css/lib/font-awesome.min.css" />
+	<link rel="stylesheet" href="{$setting.web_view}/assets/css/custom/index.css" />
+	<link rel="stylesheet" href="{$setting.web_view}/assets/css/custom/style.css" />
+	<title>[title] - {$setting.company_name}</title>
+	
+</head>
+<body id="index-page">
+	<div id="loading" class="loading">
+		<div class="main">
+			<div class="lds-ring">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+	</div>
+<nav class="navbar navbar-expand-lg">
+		<div class="top-bar d-lg-block d-none">
+			<div class="container">
+				<div class="row">
+					<div class="col-6">
+						<div class="news" style="
+						height:20px;
+    overflow: hidden;"><!-- newsList.list has bug -->
+							<span class="stat text-uppercase">新闻推送</span>
+							
+							
+							
+							<ul id="news-top" style="height: 20px;
+    display: inline;
+    left: 50px;
+    width: 100%;
+    position: absolute;
+    overflow-y: hidden;">
+							    {assign name="arr" value=":Db::name('newsMenu')->order('id desc')->limit(8)->select()"/}
+							  
+							  {volist name="arr" id="v" limit="1" key="i" empty="暂无新闻"}
+                              <li link="/newsarticle/{$v.id}.html">{$v.title} - {$v.push_time | date='Y-m-d'}</li>
+                              {/volist}
+                     
+                              </ul>
+							</div>
+          </div>
+<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+							<a class="dropdown-item text-capitalize" href="{$setting.web_url}/clients.html#/user-center">
+								<div class="d-flex align-items-center justify-content-start">
+									<img src="{$setting.web_view}/assets/images/client.svg" class="img-fluid d-lg-block d-none" alt="img">
+									<div>
+										<span class="name d-block">进入客户中心</span>
+									</div>
+								</div>
+							</a>
+
+							<a class="dropdown-item text-capitalize" href="{$setting.web_url}/clients.html?#/order">
+								<div class="d-flex align-items-center justify-content-start">
+									<img src="{$setting.web_view}/assets/images/product.svg" class="img-fluid d-lg-block d-none" alt="img">
+									<div>
+										<span class="name d-block">订购产品</span>
+										
+									</div>
+								</div>
+							</a>
+
+						</div>
+						
+						
+						
+						</div>
+					</div>
+				</div>
+		
+		
+		<div class="container">
+			<a class="navbar-brand" href="{$setting.web_url}">
+				<img src="{$setting.web_logo}" class="img-fluid d-lg-block d-none" alt="{$setting.company_name}">
+				<img src="{$setting.web_logo}" class="img-fluid d-lg-none d-block" alt="{$setting.company_name}">
+			</a>
+			<button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item" link="#">
+						<a class="nav-link" href="/products.html">产品中心</a>
+					</li>
+					<li class="nav-item" link="#">
+						<a class="nav-link" href="/news.html">新闻中心</a>
+					</li>
+
+							<li class="nav-item" link="#">
+						<a class="nav-link" href="/help.html">帮助中心</a>
+					</li>
+					<li class="nav-item" link="#">
+						<a class="nav-link" href="/aboutus.html">关于我们</a>
+					</li>
+					<li class="nav-item" link="#">
+						<a class="nav-link" href="/contact.html">联系我们</a>
+					</li>
+
+					
+{if $userInfo}
+				
+							<li link="#" class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-capitalize" href="#" id="navbarDropdown" role="button"
+							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="{$setting.web_view}/assets/images/avatarhead.svg"></a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+							<a class="dropdown-item text-capitalize" href="{$setting.web_url}/clients.html#/user-center">
+								<div class="d-flex align-items-center justify-content-start">
+									<img src="{$setting.web_view}/assets/images/client.svg" class="img-fluid d-lg-block d-none" alt="img">
+									<div>
+										<span class="name d-block">进入客户中心</span>
+									</div>
+								</div>
+							</a>
+
+							<a class="dropdown-item text-capitalize" href="{$setting.web_url}/clients.html?#/order">
+								<div class="d-flex align-items-center justify-content-start">
+									<img src="{$setting.web_view}/assets/images/product.svg" class="img-fluid d-lg-block d-none" alt="img">
+									<div>
+										<span class="name d-block">订购产品</span>
+										
+									</div>
+								</div>
+							</a>
+
+						</div>
+					</li>
+					
+					
+					{else/}  
+					<li class="nav-item user-item ml-lg-3">
+						<a class="nav-link" href="{$setting.web_url}/clients.html#/login">登录</a>
+					</li>
+<li class="nav-item d-lg-none">
+						<a class="nav-link" href="{$setting.web_url}/clients.html#/register">注册</a>
+					</li>
+					{/if}
+				</ul>
+			</div>
+		</div>
+	</nav>

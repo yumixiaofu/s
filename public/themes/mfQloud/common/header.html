@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>[title] - {$setting.company_name}</title>
+    <link rel="shortcut icon" href="{$setting.web_view}/images/favicon.ico" />
+    <link rel="stylesheet" href="{$setting.web_view}/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{$setting.web_view}/revslider/css/rs6.css">
+    <link rel="stylesheet" href="{$setting.web_view}/css/typography.css">
+    <link rel='stylesheet' href='{$setting.web_view}/css/qloud-style.css' />
+    <link rel="stylesheet" href="{$setting.web_view}/css/responsive.css">
+    <meta name="keywords" content="[keywords]">
+    <meta name="description" content="[description]">
+
+</head>
+{include file="common/config"/}
+<body>
+    <div id="loading">
+        <div id="loading-center">
+            <div class="load-img">
+                <img src="{$setting.web_view}/images/loader.gif" alt="loader">
+            </div>
+        </div>
+    </div>
+    <header id="main-header" class="header-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <a class="navbar-brand" href="{$setting.web_url}/index.html">
+                            <img class="img-fluid" src="{$setting.web_logo}" alt="{$setting.company_name}">
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="menu-btn d-inline-block" id="menu-btn">
+                        <span class="line"></span>
+                            <span class="line"></span>
+                            <span class="line"></span>
+                            </span>
+                            <span class="ion-navicon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav mr-auto w-100 justify-content-end">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link" href="{$setting.web_url}" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                 首页
+                              </a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    {if $firstGroups == null}
+                                    <a class="nav-link" href="/clients.html#/order?gid=1&firstGid=1" id="navbarDropdown-1" role="button" aria-haspopup="true" aria-expanded="false">
+                                    {else/} 
+                                    <a class="nav-link active" href="/clients.html#/order?gid=1&firstGid=1" id="navbarDropdown-1" role="button" aria-haspopup="true" aria-expanded="false">
+                                    {/if}    
+                                 产品中心
+                                    
+                              </a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    {if $newsSearch == null and $newsContent == null and $newsListCate == null}
+                                    <a class="nav-link" href="/news.html" id="navbarDropdown-2" role="button" aria-haspopup="true" aria-expanded="false">
+                                    {else/}
+                                    <a class="nav-link active" href="/news.html" id="navbarDropdown-1" role="button" aria-haspopup="true" aria-expanded="false">
+                                    {/if}     
+                                 站点新闻
+                              </a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    {if $helpCate == null and $helpContent == null}
+                                    <a class="nav-link" href="/help.html" id="navbarDropdown-3" role="button" aria-haspopup="true" aria-expanded="false">
+                                    {else/}
+                                    <a class="nav-link active" href="/help.html" id="navbarDropdown-3" role="button" aria-haspopup="true" aria-expanded="false">
+                                    {/if}
+                                 帮助支持
+                              </a>
+                                    
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown" href="/join.html" id="navbarDropdown-4" role="button" aria-haspopup="true" aria-expanded="false">
+                                 加盟合作
+                              </a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown-5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                 关于我们
+                              </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown-5">
+                                        <a class="dropdown-item" href="/about.html">关于我们</a>
+                                        <a class="dropdown-item" href="/clause.html">服务条款</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="sub-main">
+                            <ul>
+                                <li></li>
+                                {if $userInfo} 
+                                <li class="d-inline"><a href="/clients.html#/user-center" class="signup iq-button default iq-btn-round" target="_blank">会员中心</a></li>{else /}
+                                <li class="d-inline"><a href="/clients.html#/login" class="login iq-button iq-btn-outline iq-btn-round" target="_blank">登录</a></li>
+                                <li class="d-inline"><a href="/clients.html#/register" class="signup iq-button default iq-btn-round" target="_blank">注册</a></li>{/if}
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>

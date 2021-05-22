@@ -1,0 +1,150 @@
+
+
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <!--====== Title ======-->
+    <title>  </title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--====== Favicon Icon ======-->
+    <link rel="shortcut icon" href="{$webroot}/images/favicon.png" type="image/png">
+
+    <!--====== Magnific Popup CSS ======-->
+    <link rel="stylesheet" href="{$webroot}/css/magnific-popup.css">
+
+    <!--====== Slick CSS ======-->
+    <link rel="stylesheet" href="{$webroot}/css/slick.css">
+
+    <!--====== Line Icons CSS ======-->
+    <link rel="stylesheet" href="{$webroot}/css/LineIcons.css">
+
+    <!--====== Bootstrap CSS ======-->
+    <link rel="stylesheet" href="{$webroot}/css/bootstrap.min.css">
+
+    <!--====== Default CSS ======-->
+    <link rel="stylesheet" href="{$webroot}/css/default.css">
+
+    <!--====== Style CSS ======-->
+    <link rel="stylesheet" href="{$webroot}/css/style.css">
+
+</head>
+
+<body>
+
+
+<section id="home" class="slider_area">
+    <div id="carouselThree" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            {foreach $product_groups as $key=>$vo }
+                <div class="carousel-item">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="slider-content">
+                                   <!-- <h1 class="title">{$vo.name}</h1>-->
+                                    <ul class="slider-btn rounded-buttons">
+                                        <li><a class="main-btn rounded-one" href="{:url('index',['id' => $vo['gid']])}">{$vo.name}</a></li>
+                                    </ul>
+                                </div> <!-- slider-content -->
+                            </div>
+                        </div> <!-- row -->
+                    </div> <!-- container -->
+
+                </div> <!-- carousel-item -->
+
+            {/foreach}
+
+        </div>
+
+       <!-- <a class="carousel-control-prev" href="#carouselThree" role="button" data-slide="prev">
+            <i class="lni lni-arrow-left"></i>
+        </a>
+        <a class="carousel-control-next" href="#carouselThree" role="button" data-slide="next">
+            <i class="lni lni-arrow-right"></i>
+        </a>-->
+    </div>
+</section>
+
+
+<section id="pricing" class="pricing-area ">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-10">
+                <div class="section-title text-center pb-25">
+                    <h3 class="title">产品列表</h3>
+                    <p class="text">购买产品</p>
+                </div> <!-- section title -->
+            </div>
+        </div> <!-- row -->
+
+        <div class="row justify-content-center">
+            {foreach $products as $key=>$vo }
+            <div class="col-lg-4 col-md-7 col-sm-9">
+                <div class="pricing-style mt-30">
+                    <div class="pricing-icon text-center">
+                        <img src="{$webroot}/images/basic.svg" alt="">
+                    </div>
+                    <div class="pricing-header text-center">
+                        <h5 class="sub-title">{$vo.name}</h5>
+                        <p class="month"><span class="price">{$vo.product_price}</span>/{$vo.billingcycle_zh}</p>
+                    </div>
+                    <div class="pricing-list">
+                        <ul>
+                            <li><i class="lni lni-check-mark-circle"></i> Carefully crafted components</li>
+                            <li><i class="lni lni-check-mark-circle"></i> Amazing page examples</li>
+                        </ul>
+                    </div>
+                    <div class="pricing-btn rounded-buttons text-center">
+                        <a class="main-btn rounded-one" href="#">购买</a>
+                    </div>
+                </div> <!-- pricing style one -->
+            </div>
+            
+
+            {/foreach}
+
+    </div> <!-- container -->
+</section>
+
+<!--====== Jquery js ======-->
+<script src="{$webroot}/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="{$webroot}/js/vendor/modernizr-3.7.1.min.js"></script>
+
+<!--====== Bootstrap js ======-->
+<script src="{$webroot}/js/popper.min.js"></script>
+<script src="{$webroot}/js/bootstrap.min.js"></script>
+
+<!--====== Slick js ======-->
+<script src="{$webroot}/js/slick.min.js"></script>
+
+<!--====== Magnific Popup js ======-->
+<script src="{$webroot}/js/jquery.magnific-popup.min.js"></script>
+
+<!--====== Ajax Contact js ======-->
+<script src="{$webroot}/js/ajax-contact.js"></script>
+
+<!--====== Isotope js ======-->
+<script src="{$webroot}/js/imagesloaded.pkgd.min.js"></script>
+<script src="{$webroot}/js/isotope.pkgd.min.js"></script>
+
+<!--====== Scrolling Nav js ======-->
+<script src="{$webroot}/js/jquery.easing.min.js"></script>
+<script src="{$webroot}/js/scrolling-nav.js"></script>
+
+<!--====== Main js ======-->
+<script src="{$webroot}/js/main.js"></script>
+
+<div class="footer">
+    &copy; 2013-{:date('Y')} <a href="https://www.idcsmart.com" target="_blank">智简魔方团队</a>
+</div>
+</body>
+
+</html>
+
+

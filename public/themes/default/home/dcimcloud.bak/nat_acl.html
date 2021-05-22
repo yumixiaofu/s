@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="{$Request.domain}{$Request.rootUrl}/nokvm/css/htools.select.skin.css">
+  <script src="{$Request.domain}{$Request.rootUrl}/nokvm/js/jquery-min.js"></script>
+  <script src="{$Request.domain}{$Request.rootUrl}/nokvm/js/jquery.htools.select.js"></script>
+  <script src="{$Request.domain}{$Request.rootUrl}/nokvm/js/sweetalert2.all.min.js"></script>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    div {
+      outline: none;
+    }
+
+
+    /* 火柴棍标题 */
+    .page-title {
+      display: inline-block;
+      width: 300px;
+      height: 28px;
+      line-height: 28px;
+      font-size: 22px;
+      border-left: 4px solid #007bfc;
+      margin: 29px 0 30px 0;
+      text-indent: 29px;
+      /* visibility: hidden; */
+      margin: 0;
+    }
+
+    .tips {
+      border-radius: 4px;
+      box-sizing: border-box;
+      padding: 20px 30px;
+      background-color: #e6f2ff;
+      border: 1px solid #cce5fe;
+      font-size: 14px;
+      color: #606266;
+    }
+
+    .table-main {
+      display: inline-table;
+      border-spacing: 0;
+      border-collapse: separate;
+      border: 1px solid #ebeef5;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .swal2-popup {
+      position: absolute !important;
+      top: 0;
+      border: 1px solid #ccc !important;
+      box-shadow: 0 4px 24px #ccc !important;
+    }
+
+    .swal2-backdrop-show {
+      background: rgba(0, 0, 0, 0) !important;
+    }
+
+    table,
+    td,
+    th {
+      box-sizing: border-box;
+      padding: 12px 5px;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    th {
+      text-align: left;
+      border-bottom: 1px solid #ebeef5;
+      color: #7c7c7c;
+      overflow: hidden;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    td {
+      color: #333;
+    }
+
+    tr:hover td {
+      background-color: #f5f7fa;
+    }
+
+    .mount,
+    .mount2,
+    .uninstall,
+    .uninstall2 {
+      float: left;
+      padding: 5px 10px;
+      background-color: #ace;
+      margin-right: 10px;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+    }
+
+    .mount:hover {
+      background-color: #46a0ff;
+    }
+
+    .mount {
+      background-color: #007bfc;
+    }
+
+    .uninstall:hover {
+      background-color: #ff8484;
+    }
+
+    .uninstall {
+      background-color: #F55151;
+    }
+
+    .mount2:hover {
+      background-color: #46a0ff;
+    }
+
+    .mount2 {
+      background-color: #007bfc;
+    }
+
+    .uninstall2:hover {
+      background-color: #ff8484;
+    }
+
+    .uninstall2 {
+      background-color: #F55151;
+    }
+
+    /* 模态框 */
+    #model {
+      width: 500px;
+      background-color: #fff;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2020;
+      box-sizing: border-box;
+      margin-top: 15vh;
+      border-radius: 3px;
+    }
+
+    /* 快照模态框 */
+    #model_firstphoto {
+      width: 500px;
+      background-color: #fff;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2020;
+      box-sizing: border-box;
+      margin-top: 15vh;
+      border-radius: 3px;
+    }
+
+    .model_title {
+      width: 100%;
+      padding: 20px 20px 10px;
+      box-sizing: border-box;
+      border-bottom: 1px solid #e6e7eb;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .model_title_icon {
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 20px;
+    }
+
+    .model_title_icon:hover {
+      color: #007bfc
+    }
+
+    .model_main {
+      padding: 20px 30px;
+      height: auto;
+      text-align: left;
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      grid-gap: 10px 30px;
+    }
+
+    #outer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 100;
+      text-align: center;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-color: #000;
+      background-color: rgba(0, 0, 0, 0.5);
+      filter: alpha(opacity=50);
+      display: none;
+    }
+
+    #outerFirstphoto {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 100;
+      text-align: center;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-color: #000;
+      background-color: rgba(0, 0, 0, 0.5);
+      filter: alpha(opacity=50);
+      display: none;
+    }
+
+    .create {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px solid #dcdfe4;
+      color: #333;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+      width: 100px;
+      height: 40px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .create:hover {
+      border: 1px solid #007bfc;
+    }
+
+    .create_firstPhoto {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px solid #dcdfe4;
+      color: #333;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+      width: 100px;
+      height: 40px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .create_firstPhoto:hover {
+      border: 1px solid #007bfc;
+    }
+
+
+    .top {
+      display: flex;
+      justify-content: center;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .model_btn {
+      padding: 9px 15px;
+      display: flex;
+      justify-content: flex-end;
+      font-size: 14px;
+    }
+
+    .cancel_btn {
+      padding: 9px 15px;
+      border-radius: 4px;
+      border: 1px solid #dcdfe4;
+      cursor: pointer;
+      user-select: none;
+      margin-right: 15px;
+      transition: all 0.3s;
+    }
+
+    .cancel_btn_firstPhoto {
+      padding: 9px 15px;
+      border-radius: 4px;
+      border: 1px solid #dcdfe4;
+      cursor: pointer;
+      user-select: none;
+      margin-right: 15px;
+      transition: all 0.3s;
+    }
+
+    .confirm_btn {
+      color: #fff;
+      padding: 9px 15px;
+      border-radius: 4px;
+      border: 1px solid #dcdfe4;
+      background-color: #007bfc;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s;
+    }
+
+    .confirm_btn_firstPhoto {
+      color: #fff;
+      padding: 9px 15px;
+      border-radius: 4px;
+      border: 1px solid #dcdfe4;
+      background-color: #007bfc;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s;
+    }
+
+    .confirm_btn:hover {
+      background-color: #46a0ff;
+    }
+
+    .confirm_btn_firstPhoto:hover {
+      background-color: #46a0ff;
+    }
+
+    .cancel_btn:hover {
+      border: 1px solid #46a0ff;
+    }
+
+    .cancel_btn_firstPhoto:hover {
+      border: 1px solid #46a0ff;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 3fr 7fr 2fr;
+      /*width: 450px;*/
+      margin-bottom: 20px;
+    }
+
+    .title {
+      display: flex !important;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .imput_item {
+      border: 1px solid #dee0e3;
+      width: 270px;
+      height: 30px;
+      padding-left: 5px;
+    }
+
+    input:focus {
+      outline: none;
+      border: 0.5px solid black;
+    }
+
+    #outer {
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    #model {
+      margin-top: 0;
+      border: 1px solid #ccc !important;
+      box-shadow: 0 4px 24px #ccc !important;
+    }
+
+    #outerFirstphoto {
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    #model_firstphoto {
+      margin-top: 0;
+      border: 1px solid #ccc !important;
+      box-shadow: 0 4px 24px #ccc !important;
+    }
+
+    .table-main {
+        margin-top: 12px !impirtant;
+    }  
+
+    .page-title {
+        display: inline-block;
+        width: 300px;
+        height: 28px;
+        line-height: 28px;
+        font-size: 16px;
+        /* border-left: 4px solid #007bfc; */
+        margin: 29px 0 30px 0;
+        /* text-indent: 29px; */
+        /* visibility: hidden; */
+        margin: 0;
+    }
+
+    body {
+        padding: 15px;
+        box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 模态框 -->
+  <div id="outerFirstphoto">
+    <div tabindex="-1" id="model_firstphoto">
+      <div class="model_title">
+        <div class="model_title_text">创建NAT转发</div>
+        <div class="model_title_icon" id="model_title_icon2">×</div>
+      </div>
+      <form>
+      <div class="model_main">
+        <div class="row">
+          <div class="title" style="display:inline-block;margin-right:15px"><span style="color:#f00">*</span>名称</div>
+          <div class="priority">
+            <input type="text" name="name" class="imput_item" maxlength="255" placeholder="请输入名称">
+          </div>
+        </div>
+        <div class="row">
+          <div class="title" style="display:inline-block;margin-right:15px">外部端口</div>
+          <div class="priority">
+            <input type="number" name="ext_port" class="imput_item" min="1" max="65535" placeholder="不输入将会自动分配">
+          </div>
+        </div>
+        <div class="row">
+          <div class="title" style="display:inline-block;margin-right:15px"><span style="color:#f00">*</span>内部端口</div>
+          <div class="priority">
+            <input type="number" name="int_port" class="imput_item" min="1" max="65535" placeholder="请输入内部端口(1-65535)">
+          </div>
+        </div>
+        <div class="row">
+          <div class="title" style="display:inline-block;margin-right:15px"><span style="color:#f00">*</span>协议</div>
+          <select id="iso" name="protocol">
+            <option value="1">tcp</option>
+            <option value="2">udp</option>
+            <option value="3">tcp+udp</option>
+          </select>
+        </div>
+        <div class="row">
+          <div class="title" style="display:inline-block;margin-right:15px"></div>
+          <div class="priority">
+            <span id="error" style="color: red"></span>
+          </div>
+        </div>
+      </div>
+      </form>
+      <div class="model_btn">
+        <div class="cancel_btn_firstPhoto" id="cancel_btn_firstPhoto">取消</div>
+        <div class="confirm_btn_firstPhoto">确认</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="top">
+    <div class="page-title">NAT转发</div>
+    <div class="create_firstPhoto">创建</div>
+  </div>
+  <table class="table-main">
+    <tr>
+      <th>名称</th>
+      <th>外部端口</th>
+      <th>内部端口</th>
+      <th>协议</th>
+      <th>管理</th>
+    </tr>
+    {foreach $list as $key=>$vo }
+    <tr>
+      <td>{$vo.name}</td>
+      <td>{$nat_host_ip}:{$vo.ext_port}</td>
+      <td>{$vo.int_port}</td>
+      {if $vo.protocol == 1}
+      <td>tcp</td>
+      {elseif $vo.protocol == 2}
+      <td>udp</td>
+      {else /}
+      <td>tcp,udp</td>
+      {/if}
+      <td>
+        <!-- <div class="mount" data-id="{$vo.id}">恢复</div> -->
+        <div class="uninstall" data-id="{$vo.id}">删除</div>
+      </td>
+    </tr>
+    {/foreach}
+  </table>
+  <script>
+    $(".mount").on("click", function () {
+      var id = $(this).data("id")
+      sweetRec(id);
+    })
+    function sweetRec(id) {
+      Swal.fire({
+        icon: 'warning',
+        type: 'warning', // 弹框类型
+        title: '', //标题
+        text: "确定恢复选中的快照吗？", //显示内容
+        confirmButtonColor: '#3085d6', // 确定按钮的 颜色
+        confirmButtonText: '确定', // 确定按钮的 文字
+        showCancelButton: true, // 是否显示取消按钮
+        cancelButtonColor: '#d33', // 取消按钮的 颜色
+        cancelButtonText: "取消", // 取消按钮的 文字
+
+        focusCancel: true, // 是否聚焦 取消按钮
+        reverseButtons: true // 是否 反转 两个按钮的位置 默认是 左边 确定 右边 取消
+      }).then((isConfirm) => {
+        try {
+          //判断 是否 点击的 确定按钮
+          if (isConfirm.value) {
+            ajax({
+          type:"post",
+          url:"{$MODULE_CUSTOM_API}",
+          data:{"func":"restoreSnap","id":id},
+          success:function(data){
+            if(data.status==200){
+              Swal.fire("成功", data.msg, "success").then((isConfirm) => window.location.reload());
+            }else{
+              Swal.fire("失败", data.msg, "error");
+            }
+              
+          }
+      })
+          } else {
+          }
+        } catch (e) {
+          alert(e);
+        }
+      });
+    }
+    $(".uninstall").on("click", function () {
+      var id = $(this).data("id")
+      sweetDel(id);
+    })
+    function sweetDel(id) {
+      Swal.fire({
+        icon: 'warning',
+        type: 'warning', // 弹框类型
+        title: '', //标题
+        text: "确定删除吗？", //显示内容
+        confirmButtonColor: '#3085d6', // 确定按钮的 颜色
+        confirmButtonText: '确定', // 确定按钮的 文字
+        showCancelButton: true, // 是否显示取消按钮
+        cancelButtonColor: '#d33', // 取消按钮的 颜色
+        cancelButtonText: "取消", // 取消按钮的 文字
+
+        focusCancel: true, // 是否聚焦 取消按钮
+        reverseButtons: true // 是否 反转 两个按钮的位置 默认是 左边 确定 右边 取消
+      }).then((isConfirm) => {
+        try {
+          //判断 是否 点击的 确定按钮
+          if (isConfirm.value) {
+            ajax({
+          type:"post",
+          url:"{$MODULE_CUSTOM_API}",
+          data:{"func":"delNatAcl","id":id},
+          success:function(data){
+            if(data.status==200){
+              Swal.fire("成功", data.msg, "success").then((isConfirm) => window.location.reload());
+            }else{
+              Swal.fire("失败", data.msg, "error");
+            }
+              
+          }
+      })
+          } else {
+          }
+        } catch (e) {
+          alert(e);
+        }
+      });
+    }
+    var $iso = $("#iso");
+    /**
+     * 初始化插件
+     */
+    $iso.goSelectInput({
+      height: 30,
+      width: 270
+    });
+    
+    // 点x关闭
+    document.getElementById("model_title_icon2").onclick = function () {
+    	$('#error').html('');
+      document.getElementById("outerFirstphoto").style.display = "none"
+    }
+    // 点取消关闭
+    document.getElementById("cancel_btn_firstPhoto").onclick = function () {
+    	$('#error').html('');
+      document.getElementById("outerFirstphoto").style.display = "none"
+    }
+    // 创建快照
+    $('.create_firstPhoto').on('click', function(){
+    	$('#outerFirstphoto').show();
+    })
+
+    // 确认创建备份
+    const confirm_btn_firstPhoto = document.querySelector('.confirm_btn_firstPhoto')
+    confirm_btn_firstPhoto.addEventListener("click", function () {
+        ajax({
+            type:"post",
+            url:"{$MODULE_CUSTOM_API}",
+            data:$("#outerFirstphoto").find("form").serialize() + "&func=addNatAcl",
+            success:function(data){
+                if(data.status==200){
+                	$('#error').html('');
+                    $("#outerFirstphoto").hide()
+                    Swal.fire("成功", data.msg, "success").then((isConfirm) => window.location.reload());
+                }else{
+                	$('#error').html(data.msg);
+                    // alert(data.msg)
+                }
+            }
+        })
+    })
+
+    function ajax(options){
+        //创建一个ajax对象
+        var xhr = new XMLHttpRequest() || new ActiveXObject("Microsoft,XMLHTTP");
+        //数据的处理 {a:1,b:2} a=1&b=2;
+        if(typeof(options.data)!='string'){
+            var str = "";
+            for(var key in options.data){
+                str+="&"+key+"="+options.data[key];
+            }
+            str = str.slice(1)
+        }else{
+            var str = options.data;
+        }
+        options.dataType=options.dataType||'json';
+        if(options.type == "get"){
+            var url = options.url+"?"+str;
+            xhr.open("get",url);
+            xhr.setRequestHeader("Authorization","JWT {$Think.get.jwt}");
+            xhr.send();
+        }else if(options.type == "post"){
+            xhr.open("post",options.url);
+            xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+            xhr.setRequestHeader("Authorization","JWT {$Think.get.jwt}");
+            xhr.send(str)
+        }
+        //监听
+        xhr.onreadystatechange = function(){
+            //当请求成功的时候
+            if(xhr.readyState == 4 && xhr.status == 200){
+                var d = xhr.responseText;
+                d = JSON.parse(d);
+                //将请求的数据传递给成功回调函数
+                options.success&&options.success(d,xhr.responseXML)
+            }else if(xhr.status != 200){
+                //当失败的时候将服务器的状态传递给失败的回调函数
+                options.error&&options.error(xhr.status);
+            }
+        }
+    }
+  </script>
+</body>
+
+</html>

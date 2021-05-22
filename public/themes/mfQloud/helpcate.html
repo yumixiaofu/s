@@ -1,0 +1,111 @@
+{include file="common/header"  title="$helpListCate.catename" keywords="$setting.company_name" description="$setting.company_profile" /}
+{tagdata name="helpCate,helpListCate" /}
+    <div class=" main-bg">
+        <div class="container-fluid p-0">
+            <div class="text-left iq-breadcrumb-one
+                  iq-bg-over black     ">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-sm-12">
+                            <nav aria-label="breadcrumb" class="text-center iq-breadcrumb-two">
+                                <h2 class="title">
+                               支持帮助                       </h2>
+                                <ol class="breadcrumb main-bg">
+                                    <li class="breadcrumb-item"><a href="{$setting.web_url}"><i class="fa fa-home mr-2"></i>首页</a></li>
+                                    <li class="breadcrumb-item"><a href="/help.html"><i class="fa fa-anchor mr-2"></i>支持帮助</a></li>
+                                    <li class="breadcrumb-item active">{$helpListCate.catename}</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overview-block-ptb">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-sm-12 mt-lg-0 mt-5">
+                    <article id="post-218" class="post-218 post type-post status-publish format-standard has-post-thumbnail hentry category-marketing tag-business tag-marketing">
+                        {if empty($helpListCate.list)}
+                        <div class="alert alert-primary" role="alert">
+                           站长太懒还没有支持帮助相关文章!!!∑(ﾟДﾟノ)ノ
+                        </div>
+                        {else/}
+                        {foreach helpListCate.list as $key=>$nlhelp}
+                        <div class="iq-blog-box">
+                            <div class="iq-blog-image clearfix">
+                                
+                                <ul class="iq-blogtag">
+                                    
+                                    <li><a href="javascript:void(0)">站点新闻</a></li>
+                                </ul>
+
+                            </div>
+                            <div class="iq-blog-detail">
+                                <div class="iq-blog-meta">
+                                    <ul class="iq-postdate">
+                                        <li class="list-inline-item">
+                                            <i class="fa fa-calendar mr-2"></i>
+                                            <span class="screen-reader-text">Posted on</span>
+                                            <a href="javascript:void(0)" rel="bookmark">
+                                                <time class="entry-date published updated" datetime="2020-02-17T06:44:40+00:00">{$nlhelp.push_time | date='Y-m-d H:i'}</time>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                                <div class="blog-title">
+                                    <a href="/helpDetails/{$nlhelp.id}.html">
+                                        <h5 class="mb-3">{$nlhelp.title}</h5>
+                                    </a>
+                                </div>
+                                <div class="blog-content">
+                                    <p>{$nlhelp.description}</p>
+                                </div>
+
+                                <div class="blog-button">
+                                    <a class="iq-btn-link" href="/helpDetails/{$nlhelp.id}.html">立即围观<i class="ml-2 ion-ios-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>{/foreach}
+                        {/if}
+                    </article>
+                        <ul class="pagination pagination-lg">
+                            {for start="0" end="$helpListCate.total_page" step=$i+1"}
+                            {if $helpListCate.page == $i+1}
+                            <li class="iq-blog-box"><a class="iq-button iq-btn-round" href="?page={$i+1}">{$i+1}</a></li>
+                            {else/}
+                            <li class="iq-blog-box"><a class="page-link" href="?page={$i+1}">{$i+1}</a></li>
+                            {/if}
+                            {/for}
+                      </ul>
+                </div>
+
+                <div class="col-lg-4 col-sm-12 mt-lg-0 mt-5">
+                    <aside id="secondary" class="widget-area" aria-label="Blog Sidebar">
+                        <div id="search-2" class="widget widget_search">
+                            <form class="search-form" action="/help.html">
+                                <label for="search-form-5e875eae921cb">
+                                    <span class="screen-reader-text">Search for:</span>
+                                </label>
+                                <input type="search" id="search-form-5e875eae921cb" class="search-field" placeholder="搜索 &hellip;" value="{$helpSearch.search}" name="search" />
+                                <button type="submit" class="search-submit"><i class="fa fa-search"></i><span class="screen-reader-text">Search</span></button>
+                            </form>
+                        </div>
+                        <div id="recent-posts-2" class="widget widget_recent_entries">
+                            <h2 class="widget-title">帮助分类</h2>
+                            <ul>
+                                {foreach helpCate as $key=>$hcate}
+                                <li>
+                                    <a href="/helpcate/{$hcate.id}.html">{$hcate.title}</a>
+                                </li>
+                                {/foreach}
+                            </ul>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+{include file="common/footer"  /}

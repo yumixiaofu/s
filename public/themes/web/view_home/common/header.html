@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>[title]</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="[description]" />
+  <meta name="keywords" content="[keywords]" />
+  <meta content="Shreethemes" name="author" />
+  <!-- favicon -->
+  <!-- <link rel="shortcut icon" href="{$setting.web_logo}/images/favicon.ico"> -->
+  <!-- Bootstrap -->
+  <link href="{$setting.web_view}/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+  <!-- Magnific Popup -->
+  <link href="{$setting.web_view}/css/magnific-popup.css" rel="stylesheet" type="text/css" />
+  <!-- Slider -->
+  <link rel="stylesheet" href="{$setting.web_view}/css/owl.carousel.min.css" />
+  <link rel="stylesheet" href="{$setting.web_view}/css/owl.theme.default.min.css" />
+  <!-- Icons -->
+  <link href="{$setting.web_view}/css/materialdesignicons.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="{$setting.web_view}/css/unicons.css">
+  <!-- Css -->
+  <link href="{$setting.web_view}/css/style.css" rel="stylesheet" type="text/css" id="theme-opt" />
+  <link href="{$setting.web_view}/css/colors/default.css" rel="stylesheet" id="color-opt">
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+</head>
+
+<body>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Navbar STart -->
+  <div id="topnav"
+    class="defaultscroll sticky {if $viewName=='index' || $viewName=='cloud' || $viewName=='dedicated' || $viewName=='safeguard'}top-dark{/if}">
+    <div class="container">
+      <!-- Logo container-->
+      <div style="float:left;    margin:0;">
+        <a class="logo" href="/index.html">
+          <img src="{$setting.web_logo}" height="24" alt="">
+
+        </a>
+      </div>
+
+      {if $userInfo}
+      <div class="buy-button login-button">
+        <a class="user_name  login-dark text-dark">
+          <span class="user_name_content  h6 mr-3 " style="margin-right:20px"><a href="/clientarea"
+              style="cursor:pointer">您好, {$userInfo.username} </a></span><span>
+            <a href="/userlogout.html" style="cursor:pointer">退出</a>
+          </span></a>
+      </div>
+      {else/}
+      <div class="buy-button login-button">
+        <a href="/login" target="_blank" class="text-dark h6 mr-3 login-dark">登录</a>
+        <a href="/register" target="_blank" class="btn btn-primary">注册</a>
+      </div>
+      {/if}
+      <!--end login button-->
+      <!-- End Logo container-->
+      <div class="menu-extras">
+        <div class="menu-item">
+          <!-- Mobile menu toggle-->
+          <a class="navbar-toggle">
+            <div class="lines">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </a>
+          <!-- End mobile menu toggle-->
+        </div>
+      </div>
+      <div id="navigation">
+        <!-- Navigation Menu-->
+        <ul class="navigation-menu">
+          <li class="has-submenu">
+            <a href="/index.html">首页</a>
+          </li>
+          <li class="has-submenu">
+            <a href="javascript:void(0)">产品</a><span class="menu-arrow"></span>
+            <ul class="submenu megamenu">
+              <li>
+                <ul>
+                  <li><a href="/cloud.html"><img src="{$setting.web_view}/images/icons/shared.svg"
+                        class="avatar avatar-ex-sm mr-2" alt=""> 云服务器</a></li>
+                  <li><a href="/dedicated.html"><img src="{$setting.web_view}/images/icons/vps.svg"
+                        class="avatar avatar-ex-sm mr-2" alt="">服务器</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li><a href="/safeguard.html">服务保障</a></li>
+          <li class="has-submenu">
+            <a href="javascript:void(0)">关于我们</a><span class="menu-arrow"></span>
+            <ul class="submenu">
+              <li><a href="/news.html">新闻中心</a></li>
+              <li><a href="/about.html">公司简介</a></li>
+              <li><a href="/contact.html">联系我们</a></li>
+            </ul>
+          </li>
+          <li><a href="/help.html">帮助中心</a></li>
+        </ul>
+        <!--end navigation menu-->
+      </div>
+      <!--end navigation-->
+    </div>
+    <!--end container-->
+  </div>
